@@ -1,0 +1,4 @@
+source $HOME/.config/vim/config/plugged.vim
+source $HOME/.config/vim/config/general.vim
+source $HOME/.config/vim/config/mappings.vim
+source $HOME/.config/vim/config/customization.vim
