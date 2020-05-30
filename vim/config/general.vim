@@ -36,4 +36,6 @@ set number relativenumber
 set updatetime=300                      " Faster completion
 set timeoutlen=500                      " By default timeoutlen is 1000 ms
 
+set scrolloff=10
+
 autocmd BufNewFile,BufRead * setlocal formatoptions-=cro

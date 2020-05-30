@@ -1,3 +1,5 @@
+env:
+  TERM: xterm-256color
 # Window Customization
 window:
   dimensions:
@@ -16,13 +18,13 @@ dynamic_title: true
 # Font Customization
 font:
   normal:
-    family: MonacoB
+    family: Fira Code
     style: Regular
   bold:
-    family: MonacoB
+    family: Fira Code
     style: Bold
   italic:
-    family: MonacoB
+    family: Fira Code
     style: Italic
   size: 14
   offset:
@@ -71,6 +73,15 @@ cursor:
   unfocused_hollow: true
 
 
+# Tmux start
+# shell:
+#   program: /bin/zsh
+#   args:
+#     - -l
+#     - -c
+#     - "tmux attach || tmux"
+  
+# Key bindings
 key_bindings:
   - { key: N, mods: Command, action: SpawnNewInstance }
   - { key: 10,        mods: Alt,    chars: "\x5c" } # barra invertida `\`
@@ -82,3 +93,4 @@ key_bindings:
   - { key: 42,        mods: Alt,    chars: "}" } # cierra llaves `}`
   - { key: 33,        mods: Alt,    chars: "[" } # abre corchetes `[`
   - { key: 30,        mods: Alt,    chars: "]" } # cierra corchetes `]`
+  # - { key: Semicolon,mods: Alt,     chars: "~" }
