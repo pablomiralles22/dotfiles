@@ -12,7 +12,7 @@ window:
 scrolling:
   history: 10000
   multiplier: 3
-background_opacity: .94
+background_opacity: .9
 dynamic_title: true
 
 # Font Customization
@@ -29,7 +29,7 @@ font:
   size: 14
   offset:
     x: 0
-    y: 0
+    y: 1
   glyph_offset:
     x: 0
     y: 0
@@ -73,17 +73,10 @@ cursor:
   unfocused_hollow: true
 
 
-# Tmux start
-# shell:
-#   program: /bin/zsh
-#   args:
-#     - -l
-#     - -c
-#     - "tmux attach || tmux"
   
 # Key bindings
 key_bindings:
-  - { key: N, mods: Command, action: SpawnNewInstance }
+  - { key: N, mods: Control, action: SpawnNewInstance }
   - { key: 10,        mods: Alt,    chars: "\x5c" } # barra invertida `\`
   - { key: 18,        mods: Alt,    chars: "\x7c" } # barra vertical `|`
   - { key: Key2,      mods: Alt,    chars: "@" } # arroba `@`

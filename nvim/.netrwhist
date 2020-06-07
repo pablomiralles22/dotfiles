@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/Users/pablomirallesgonzalez/.config/neofetch'
+let g:netrw_dirhist_5='/Users/pablomirallesgonzalez/Documents/work/portfolio/themes/anatole/layouts/partials/taxonomy'
+let g:netrw_dirhist_4='/Users/pablomirallesgonzalez/Documents/work/portfolio/content/posts'
+let g:netrw_dirhist_3='/Users/pablomirallesgonzalez/Documents/work/portfolio/content'
+let g:netrw_dirhist_2='/Users/pablomirallesgonzalez/.config/nvim/config'
+let g:netrw_dirhist_1='/Users/pablomirallesgonzalez/.config/nvim/plugged'
