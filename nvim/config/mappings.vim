@@ -16,9 +16,6 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" for scaping without scape"
-inoremap jk <Esc>
-inoremap kj <Esc>
 
 " Coc.vim "
 nmap <leader>gd <Plug>(coc-definition)
@@ -29,6 +26,10 @@ nmap <leader>rn <Plug>(coc-rename)
 
 
 " CtrlP "
-nmap <leader>p :CtrlP<cr>
-nmap <leader>b :CtrlPBuffer<cr>
+" nmap <leader>p :CtrlP<cr>
+" nmap <leader>b :CtrlPBuffer<cr>
 
+" FZF "
+nmap <leader>p :Files<cr>
+nmap <leader>pg :GFiles<cr>
+nmap <leader>b :Buffers<cr>

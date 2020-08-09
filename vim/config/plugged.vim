@@ -4,6 +4,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'justinmk/vim-sneak'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " Plugin config "
