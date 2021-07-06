@@ -1,4 +1,4 @@
 {
-    "clangd.path": "/usr/local/Cellar/llvm/10.0.0_3/bin/clangd",
+    "clangd.path": "/usr/local/Cellar/llvm/12.0.0_1/bin/clangd",
     "clangd.fallbackFlags": ["-std=c++17"]
 }

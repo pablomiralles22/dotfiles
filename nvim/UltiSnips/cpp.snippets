@@ -1,0 +1,79 @@
+snippet sctempl "Single case CP template"
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+const int mxN = 2e5;
+const int MOD = 1e9+7;
+
+int main(void) {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	$0
+}
+endsnippet
+
+snippet mctempl "Multiple case CP template"
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+const int mxN = 2e5;
+const int MOD = 1e9+7;
+
+inline void solve_case() {
+	$0
+}
+
+int main(void) {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int T; cin >> T;
+	while(T--) {
+		solve_case();
+	}
+}
+endsnippet
+
+snippet map "std::map (map)"
+map<${1:string}, ${2:int}> ${3:m};$0
+endsnippet
+
+snippet vec "std::vector (v)"
+vector<${1:int}> ${2:v};$0
+endsnippet
+
+snippet pair "std::pair (p)"
+pair<${1:int},${2:int}> ${3:p};$0
+endsnippet
+
+snippet tp "template <typename ..> (template)"
+template <typename ${1:_InputIter}>
+endsnippet
+
+snippet cla "An entire .h generator" b
+#ifndef ${2:`!v substitute(vim_snippets#Filename('$1_H','ClassName'),'.*','\U&\E','')`}
+#define $2
+
+class ${1:`!v substitute(substitute(vim_snippets#Filename('$1','ClassName'),'^.','\u&',''), '_\(\w\)', '\u\1', 'g')`}
+{
+private:
+	$3
+
+public:
+	$1();
+	virtual ~$1();
+};
+
+#endif /* $2 */
+endsnippet
+
+snippet for "Standard for loop"
+for(int ${1:i}=${2:0}; $1<${3:n}; ++$1) {
+	$4
+}$0
+endsnippet
+
+snippet foreach "Standard foreach loop"
+for(auto ${1:var} : ${2:collection}) {
+	$3
+}$0
+endsnippet
