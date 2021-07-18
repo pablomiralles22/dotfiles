@@ -5,3 +5,7 @@ nvim/plugged
 iterm2
 yarn
 gatsby
+jgit
+vim
+
+.DS_Store
