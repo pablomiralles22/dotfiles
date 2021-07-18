@@ -1,6 +1,6 @@
 -- keymaps
 local on_attach = function(client, bufnr)
-    vim.lsp.set_log_level("debug")
+  vim.lsp.set_log_level("debug")
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -51,7 +51,7 @@ local function make_config()
     -- enable snippet support
     capabilities = capabilities,
     -- map buffer local keybindings when the language server attaches
-    on_attach = on_attach,
+    on_attach = require'completion'.on_attach,
   }
 end
 
