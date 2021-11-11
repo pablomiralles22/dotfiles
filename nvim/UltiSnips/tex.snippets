@@ -18,26 +18,57 @@ snippet template "Basic template" b
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
-\usepackage[dutch]{babel}
-\usepackage{amsmath, amssymb}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsthm, amsfonts, mathabx}
+\usepackage{enumitem}
+\usepackage{hyperref}
 
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\T{\mathbb{T}}
+\def\N{\mathbb{N}}
+\def\Q{\mathbb{Q}}
+\def\Z{\mathbb{Z}}
+\def\eps{\varepsilon}
 
-% figure support
-\usepackage{import}
-\usepackage{xifthen}
-\pdfminorversion=7
-\usepackage{pdfpages}
-\usepackage{transparent}
-\newcommand{\incfig}[1]{%
-	\def\svgwidth{\columnwidth}
-	\import{./figures/}{#1.pdf_tex}
-}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\dotp}[2]{\left\langle#1,#2\right\rangle}
 
-\pdfsuppresswarningpagegroup=1
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{example}[theorem]{Ejemplo}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{remark}[theorem]{Observación}
+
+\setlength{\parskip}{1em}
+
+\title{}
+\author{Pablo Miralles González}
+\date{Nov 2021}
 
 \begin{document}
+	\maketitle
 	$0
 \end{document}
+endsnippet
+
+snippet biblio "Basic bibliography config" b
+\usepackage[
+backend=biber,
+style=ieee,
+sorting=ynt
+]{biblatex}
+\addbibresource{ref.bib}
+endsnippet
+
+snippet printbiblio "Basic bibliography output" b
+\printbibliography[
+heading=bibintoc,
+title={Referencias}
+]
 endsnippet
 
 snippet beg "begin{} / end{}" bA
@@ -74,13 +105,30 @@ snippet table "Table environment" b
 \end{table}
 endsnippet
 
-snippet fig "Figure environment" b
-\begin{figure}[${1:htpb}]
+snippet figr "Figure environment + ref"
+\autoref{fig:$5}$0
+
+\begin{figure}[${1:!htpb}]
 	\centering
-	${2:\includegraphics[width=0.8\textwidth]{$3}}
+	${2:\includegraphics[width=\textwidth]{$3}}
 	\caption{${4:$3}}
 	\label{fig:${5:${3/\W+/-/g}}}
 \end{figure}
+endsnippet
+
+snippet fig "Figure environment" b
+\begin{figure}[${1:!htpb}]
+	\centering
+	${2:\includegraphics[width=\textwidth]{$3}}
+	\caption{${4:$3}}
+	\label{fig:${5:${3/\W+/-/g}}}
+\end{figure}
+endsnippet
+
+snippet lst "Listing environment" b
+\begin{lstlisting}${1:[language=$2]}
+$3
+\end{lstlisting}$0
 endsnippet
 
 snippet enum "Enumerate" bA
@@ -463,6 +511,12 @@ snippet dint "integral" wA
 \int_{${1:-\infty}}^{${2:\infty}} ${3:${VISUAL}} $0
 endsnippet
 
+priority 300
+context "math()"
+snippet xint "integral on set & measure" wA
+\int_{${1:\Omega}} ${2:${VISUAL}}\ d${3:\mu}$0
+endsnippet
+
 priority 200
 context "math()"
 snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|pi|zeta|int)' "ln" rwA
@@ -510,6 +564,9 @@ snippet << "<<" iA
 \ll
 endsnippet
 
+snippet circ "Composition" iA
+\circ 
+endsnippet
 
 snippet ~~ "~" iA
 \sim 
@@ -539,6 +596,11 @@ snippet inn "in " iA
 \in 
 endsnippet
 
+context "math()"
+snippet eee "in " iA
+\eps 
+endsnippet
+
 snippet NN "n" iA
 \N
 endsnippet
@@ -560,7 +622,7 @@ snippet nnn "bigcap" iA
 endsnippet
 
 snippet OO "emptyset" iA
-\O
+\emptyset
 endsnippet
 
 snippet RR "real" iA

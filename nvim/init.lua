@@ -4,40 +4,48 @@ local fn = vim.fn    -- to call Vim functions e.g. fn.bufnr()
 local g = vim.g      -- a table to access global variables
 local opt = vim.opt  -- to set options
 
-local function map(mode, lhs, rhs, opts)
+function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
   if opts then options = vim.tbl_extend('force', options, opts) end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
 -------------------- PLUGINS -------------------------------
-require "paq" {
-  "savq/paq-nvim";                  -- Let Paq manage itself
-  "hoob3rt/lualine.nvim";
-  {"junegunn/fzf", run = fn["fzf#install"]};
-  "junegunn/fzf.vim";
-  "SirVer/ultisnips";
-  "preservim/nerdcommenter";
-  {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"};
-  -- Language suppor, check if I really need them anymore
-  -- "lervag/vimtex";
+require("packer").startup(function()
+  use 'wbthomason/packer.nvim'
+  use "hoob3rt/lualine.nvim"
+  use {"junegunn/fzf", run = function() fn["fzf#install"](0) end}
+  use "junegunn/fzf.vim"
+  use "SirVer/ultisnips"
+  use "preservim/nerdcommenter"
+  use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+  -- Language support
+  use "lervag/vimtex"
   -- "godlygeek/tabular";
-  -- "plasticboy/vim-markdown";
+  use "plasticboy/vim-markdown"
   -- LSP support
-  "neovim/nvim-lspconfig";
-  "kabouzeid/nvim-lspinstall";
-  "nvim-lua/completion-nvim";
+  use "neovim/nvim-lspconfig"
+  use "kabouzeid/nvim-lspinstall"
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "quangnguyen30192/cmp-nvim-ultisnips",
+    }
+  }
   -- Themes
-  "morhetz/gruvbox";
-  "lourenci/github-colors";
-}
+  use "morhetz/gruvbox"
+  use "lourenci/github-colors"
+end)
 
 -- Ultisnips
 g.UltiSnipsExpandTrigger = "<tab>"
 g.UltiSnipsJumpForwardTrigger = '<tab>'
 g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 g.UltiSnipsSnippetDirectories = {"UltiSnips"}
-
 
 -------------------- OPTIONS -------------------------------
 cmd 'colorscheme gruvbox'           -- Put your favorite colorscheme here
@@ -66,6 +74,27 @@ opt.termguicolors = true            -- True color support
 opt.wildmode = {'list', 'longest'}  -- Command-line completion mode
 opt.wrap = false                    -- Disable line wrapn
 
+
+
+-------------------- AUTOCMD -------------------------------
+
+vim.api.nvim_command([[
+  augroup PlainTextWidth
+  autocmd BufRead,BufNewFile *.txt,*.tex set textwidth=80 " Autowrap text files
+  augroup END 
+]])
+
+
+-------------------- ZETTELKASTEN -------------------------------
+
+local zk_dir = '/Users/pablomirallesgonzalez/Documents/notes/vim-tech-zk'
+
+function Start_zettel()
+  cmd 'source ~/.config/nvim/zettelkasten.vim'
+  cmd ('cd '..zk_dir)
+  cmd 'n 00000000000000\\ index.md'
+end
+
 -------------------- MAPPINGS -------------------------------
 g.mapleader = ' '
 
@@ -74,10 +103,10 @@ map('n', '<up>', 'gk')
 map('n', '<down>', 'gj')
 map('n', '<left>', ':bprevious<CR>')
 map('n', '<right>', ':bnext<CR>')
-map('i', '<up>', 'nop')
-map('i', '<down>', 'nop')
-map('i', '<left>', 'nop')
-map('i', '<right>', 'nop')
+map('i', '<up>', '')
+map('i', '<down>', '')
+map('i', '<left>', '')
+map('i', '<right>', '')
 
 -- Split navigation
 map('n', '<C-J>', '<C-W><C-J>')
@@ -86,7 +115,10 @@ map('n', '<C-L>', '<C-W><C-L>')
 map('n', '<C-H>', '<C-W><C-H>')
 
 -- FZF
-map('n', '<leader>f', ':Files<cr>')
-map('n', '<leader>p', ':GFiles<cr>')
-map('n', '<leader>b', ':Buffers<cr>')
+map('n', '<leader>ff', ':Files<cr>')
+map('n', '<leader>fg', ':GFiles<cr>')
+map('n', '<leader>fc', ':Ag<cr>')
+map('n', '<leader>fb', ':Buffers<cr>')
 
+-- Vimwiki / Vimzettel
+map('n', '<leader>zko', ':lua Start_zettel()<cr>')
