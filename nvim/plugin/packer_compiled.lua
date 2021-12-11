@@ -89,11 +89,6 @@ _G.packer_plugins = {
     path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/cmp-nvim-ultisnips",
     url = "https://github.com/quangnguyen30192/cmp-nvim-ultisnips"
   },
-  ["cmp-omni"] = {
-    loaded = true,
-    path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/cmp-omni",
-    url = "https://github.com/hrsh7th/cmp-omni"
-  },
   ["cmp-path"] = {
     loaded = true,
     path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/cmp-path",
@@ -129,6 +124,11 @@ _G.packer_plugins = {
     path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/nerdcommenter",
     url = "https://github.com/preservim/nerdcommenter"
   },
+  ["neuron-v2.vim"] = {
+    loaded = true,
+    path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/neuron-v2.vim",
+    url = "https://github.com/chiefnoah/neuron-v2.vim"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/nvim-cmp",
@@ -153,11 +153,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
-  },
-  ["tex-conceal.vim"] = {
-    loaded = true,
-    path = "/Users/pablomirallesgonzalez/.local/share/nvim/site/pack/packer/start/tex-conceal.vim",
-    url = "https://github.com/KeitaNakamura/tex-conceal.vim"
   },
   ultisnips = {
     loaded = true,

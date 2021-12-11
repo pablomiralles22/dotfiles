@@ -7,3 +7,4 @@ let g:vimtex_compiler_latexmk = {
 
 let g:vimtex_complete_close_braces = 1
 let g:vimtex_complete_enabled = 1
+set conceallevel=0

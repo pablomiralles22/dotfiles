@@ -12,16 +12,22 @@ def math():
     except StopIteration:
         return False
 
+alfn_to_greek = {
+	 'a': 'alpha', 'b': 'beta', 'c': 'chi',
+	 'd': 'delta', 'e': 'epsilon', 'f': 'phi',
+	 'g': 'gamma', 'h': 'eta', 'i': 'iota',
+	 'k': 'kappa', 'l': 'lambda', 'm': 'mu',
+	 'n': 'nu', 'p': 'pi', 'q': 'theta',
+	 'r': 'rho', 's': 'sigma', 't': 'tau',
+	 'y': 'psi', 'u': 'upsilon', 'w': 'omega',
+	 'z': 'zeta', 'x': 'xi',
+}
 endglobal
 
 snippet zet "Zettel" b
 # `!p snip.rv = snip.basename`
 
 $0
-
----
-#evergreen
-Tags: $1
 
 ## Reference
 
@@ -31,10 +37,6 @@ snippet lit "Literature" b
 # `!p snip.rv = snip.basename`
 
 $0
-
----
-#literature$1
-Tags: $2
 
 ## Reference
 
@@ -53,6 +55,12 @@ snippet elab "underbrace" iA
 \\underbrace{$1}_{\text{$2}}$0
 endsnippet
 
+
+context "math()"
+snippet apr "approx" iA
+\approx 
+endsnippet
+
 priority 100
 context "math()"
 snippet dotp "dotp" iA
@@ -60,14 +68,17 @@ snippet dotp "dotp" iA
 endsnippet
 
 priority 100
+context "math()"
 snippet ... "ldots" iA
 \ldots
 endsnippet
 
+context "math()"
 snippet => "implies" Ai
 \implies
 endsnippet
 
+context "math()"
 snippet =< "implied by" Ai
 \impliedby
 endsnippet
@@ -144,33 +155,6 @@ snippet sympy "sympyblock " w
 sympy $1 sympy$0
 endsnippet
 
-priority 10000
-snippet 'sympy(.*)sympy' "sympy" wr
-`!p
-from sympy import *
-x, y, z, t = symbols('x y z t')
-k, m, n = symbols('k m n', integer=True)
-f, g, h = symbols('f g h', cls=Function)
-init_printing()
-snip.rv = eval('latex(' + match.group(1).replace('\\', '').replace('^', '**').replace('{', '(').replace('}', ')') + ')')
-`
-endsnippet
-
-priority 1000
-snippet math "mathematicablock" w
-math $1 math$0
-endsnippet
-
-priority 10000
-snippet 'math(.*)math' "math" wr
-`!p
-import subprocess
-code = match.group(1)
-code = 'ToString[' + code + ', TeXForm]'
-snip.rv = subprocess.check_output(['wolframscript', '-code', code])
-`
-endsnippet
-
 snippet == "equals" iA
 &= $1 \\\\
 endsnippet
@@ -202,30 +186,37 @@ snippet () "left( right)" iA
 \left( ${1:${VISUAL}} \right) $0
 endsnippet
 
+context "math()"
 snippet lr "left( right)" i
 \left( ${1:${VISUAL}} \right) $0
 endsnippet
 
+context "math()"
 snippet lr( "left( right)" i
 \left( ${1:${VISUAL}} \right) $0
 endsnippet
 
+context "math()"
 snippet lr| "left| right|" i
 \left| ${1:${VISUAL}} \right| $0
 endsnippet
 
+context "math()"
 snippet lr{ "left\{ right\}" i
 \left\\{ ${1:${VISUAL}} \right\\} $0
 endsnippet
 
+context "math()"
 snippet lrb "left\{ right\}" i
 \left\\{ ${1:${VISUAL}} \right\\} $0
 endsnippet
 
+context "math()"
 snippet lr[ "left[ right]" i
 \left[ ${1:${VISUAL}} \right] $0
 endsnippet
 
+context "math()"
 snippet lra "leftangle rightangle" iA
 \left<${1:${VISUAL}} \right>$0
 endsnippet
@@ -235,26 +226,32 @@ snippet conj "conjugate" iA
 \overline{$1}$0
 endsnippet
 
+context "math()"
 snippet sum "sum" w
 \sum_{n=${1:1}}^{${2:\infty}} ${3:a_n z^n}
 endsnippet
 
+context "math()"
 snippet taylor "taylor" w
 \sum_{${1:k}=${2:0}}^{${3:\infty}} ${4:c_$1} (x-a)^$1 $0
 endsnippet
 
+context "math()"
 snippet lim "limit" w
 \lim_{${1:n} \to ${2:\infty}} 
 endsnippet
 
+context "math()"
 snippet limsup "limsup" w
 \limsup_{${1:n} \to ${2:\infty}} 
 endsnippet
 
+context "math()"
 snippet prod "product" w
 \prod_{${1:n=${2:1}}}^{${3:\infty}} ${4:${VISUAL}} $0
 endsnippet
 
+context "math()"
 snippet part "d/dx" w
 \frac{\partial ${1:V}}{\partial ${2:x}} $0
 endsnippet
@@ -284,22 +281,23 @@ snippet rd "to the ... power" iA
 ^{($1)}$0
 endsnippet
 
+context "math()"
 snippet __ "subscript" iA
 _{$1}$0
 endsnippet
 
+context "math()"
 snippet ooo "\infty" iA
 \infty
 endsnippet
 
-snippet rij "mrij" i
-(${1:x}_${2:n})_{${3:$2}\\in${4:\\N}}$0
-endsnippet
 
+context "math()"
 snippet <= "leq" iA
 \le 
 endsnippet
 
+context "math()"
 snippet >= "geq" iA
 \ge 
 endsnippet
@@ -315,70 +313,8 @@ snippet AA "forall" iA
 endsnippet
 
 context "math()"
-snippet xnn "xn" iA
-x_{n}
-endsnippet
-
-context "math()"
-snippet ynn "yn" iA
-y_{n}
-endsnippet
-
-
-context "math()"
-snippet xii "xi" iA
-x_{i}
-endsnippet
-
-context "math()"
-snippet yii "yi" iA
-y_{i}
-endsnippet
-
-context "math()"
-snippet xjj "xj" iA
-x_{j}
-endsnippet
-
-context "math()"
-snippet yjj "yj" iA
-y_{j}
-endsnippet
-
-context "math()"
-snippet xp1 "x" iA
-x_{n+1}
-endsnippet
-
-context "math()"
-snippet xmm "x" iA
-x_{m}
-endsnippet
-
-snippet R0+ "R0+" iA
-\\R_0^+
-endsnippet
-
-snippet plot "Plot" w
-\begin{figure}[$1]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xmin= ${2:-10}, xmax= ${3:10},
-			ymin= ${4:-10}, ymax = ${5:10},
-			axis lines = middle,
-		]
-			\addplot[domain=$2:$3, samples=${6:100}]{$7};
-		\end{axis}
-	\end{tikzpicture}
-	\caption{$8}
-	\label{${9:$8}}
-\end{figure}
-endsnippet
-
-snippet nn "Tikz node" w
-\node[$5] (${1/[^0-9a-zA-Z]//g}${2}) ${3:at (${4:0,0}) }{$${1}$};
-$0
+snippet '([xyz])(ii|jj|kk|mm|nn)' "index elements" riA
+`!p snip.rv = match.group(1) + '_' + match.group(2)[0]`
 endsnippet
 
 context "math()"
@@ -391,10 +327,12 @@ snippet lll "l" iA
 endsnippet
 
 context "math()"
+context "math()"
 snippet nabl "nabla" iA
 \nabla 
 endsnippet
 
+context "math()"
 context "math()"
 snippet xx "cross" iA
 \times 
@@ -421,6 +359,12 @@ priority 300
 context "math()"
 snippet dint "integral" wA
 \int_{${1:-\infty}}^{${2:\infty}} ${3:${VISUAL}} $0
+endsnippet
+
+priority 300
+context "math()"
+snippet xint "integral on set & measure" wA
+\int_{${1:\Omega}} ${2:${VISUAL}}\ d${3:\mu}$0
 endsnippet
 
 priority 200
@@ -462,15 +406,22 @@ snippet \\\ "setminus" iA
 \setminus
 endsnippet
 
+context "math()"
 snippet >> ">>" iA
 \gg
 endsnippet
 
+context "math()"
 snippet << "<<" iA
 \ll
 endsnippet
 
+context "math()"
+snippet circ "Composition" iA
+\circ 
+endsnippet
 
+context "math()"
 snippet ~~ "~" iA
 \sim 
 endsnippet
@@ -480,10 +431,10 @@ snippet set "set" wA
 \\{$1\\} $0
 endsnippet
 
+context "math()"
 snippet || "mid" iA
- \mid 
+\mid 
 endsnippet
-
 
 context "math()"
 snippet cc "subset" Ai
@@ -499,11 +450,7 @@ snippet inn "in " iA
 \in 
 endsnippet
 
-snippet NN "n" iA
-\N
-endsnippet
-
-snippet Nn "cap" iA
+snippet II "cap" iA
 \cap 
 endsnippet
 
@@ -511,32 +458,23 @@ snippet UU "cup" iA
 \cup 
 endsnippet
 
-snippet uuu "bigcup" iA
+snippet BUU "bigcup" iA
 \bigcup_{${1:i \in ${2: I}}} $0
 endsnippet
 
-snippet nnn "bigcap" iA
+snippet BII "bigcap" iA
 \bigcap_{${1:i \in ${2: I}}} $0
 endsnippet
 
 snippet OO "emptyset" iA
-\mathbb O
+\emptyset
 endsnippet
 
-snippet RR "real" iA
-\mathbb R
-endsnippet
-
-snippet QQ "Q" iA
-\mathbb Q
-endsnippet
-
-snippet ZZ "Z" iA
-\mathbb Z
-endsnippet
-
-snippet CC "complex" iA
-\mathbb C
+context "math()"
+snippet '([CRQZNDH]{2})' "mathbb" riA
+`!p
+snip.rv = "\mathbb{" + match.group(1)[0] + "}"
+` $0
 endsnippet
 
 snippet <! "normal" iA
@@ -554,7 +492,7 @@ _\text{$1} $0
 endsnippet
 
 context "math()"
-snippet tt "text" iA
+snippet txt "text" iA
 \text{$1}$0
 endsnippet
 
@@ -586,35 +524,33 @@ snippet "bar" "bar" riA
 \overline{$1}$0
 endsnippet
 
-priority 100
-context "math()"
-snippet "([a-zA-Z])bar" "bar" riA
-\overline{`!p snip.rv=match.group(1)`}
-endsnippet
-
 priority 10
 context "math()"
 snippet "hat" "hat" riA
 \hat{$1}$0
 endsnippet
 
-priority 100
 context "math()"
-snippet "([a-zA-Z])hat" "hat" riA
-\hat{`!p snip.rv=match.group(1)`}
+snippet "vec" "vec" riA
+\vec{$1}$0
 endsnippet
 
-snippet letw "let omega" iA
-Let $\Omega \subset \C$ be open.
+context "math()"
+snippet '(aa|bb|cc|dd|ee|ff|gg|hh|ii|kk|ll|mm|nn|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz)' "alpha to greek" rA
+`!p
+letter = match.group(1)[0]
+suff = alfn_to_greek[letter]
+snip.rv = '\\' + suff
+` $0
+endsnippet
+
+context "math()"
+snippet '(Aa|Bb|Cc|Dd|Ee|Ff|Gg|Hh|Ii|Kk|Ll|Mm|Nn|Pp|Qq|Rr|Ss|Tt|Uu|Vv|Ww|Xx|Yy|Zz)' "alpha to greek" rA
+`!p
+letter = match.group(1)[1]
+suff = alfn_to_greek[letter]
+snip.rv = '\\' + suff.capitalize()
+` $0
 endsnippet
 
 
-snippet HH "H" iA
-\mathbb{H}
-endsnippet
-
-snippet DD "D" iA
-\mathbb{D}
-endsnippet
-
-# vim:ft=snippets

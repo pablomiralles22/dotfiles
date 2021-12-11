@@ -9,6 +9,16 @@ def env(name):
 	[x,y] = vim.eval("vimtex#env#is_inside('" + name + "')") 
 	return x != '0' and y != '0'
 
+alfn_to_greek = {
+	 'a': 'alpha', 'b': 'beta', 'c': 'chi',
+	 'd': 'delta', 'e': 'varepsilon', 'f': 'phi',
+	 'g': 'gamma', 'h': 'eta', 'i': 'iota',
+	 'k': 'kappa', 'l': 'lambda', 'm': 'mu',
+	 'n': 'nu', 'p': 'pi', 'q': 'theta',
+	 'r': 'rho', 's': 'sigma', 't': 'tau',
+	 'y': 'psi', 'u': 'upsilon', 'w': 'omega',
+	 'z': 'zeta', 'x': 'xi',
+}
 endglobal
 
 
@@ -24,24 +34,19 @@ snippet template "Basic template" b
 \usepackage{enumitem}
 \usepackage{hyperref}
 
-\def\R{\mathbb{R}}
-\def\C{\mathbb{C}}
-\def\T{\mathbb{T}}
-\def\N{\mathbb{N}}
-\def\Q{\mathbb{Q}}
-\def\Z{\mathbb{Z}}
 \def\eps{\varepsilon}
 
-\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand{\dotp}[2]{\left\langle#1,#2\right\rangle}
 
-\newtheorem{theorem}{Teorema}[section]
-\newtheorem{proposition}[theorem]{Proposición}
-\newtheorem{definition}[theorem]{Definición}
-\newtheorem{example}[theorem]{Ejemplo}
-\newtheorem{corollary}[theorem]{Corolario}
-\newtheorem{lemma}[theorem]{Lema}
-\newtheorem{remark}[theorem]{Observación}
+\newcounter{objects}[section]
+\renewcommand{\theobjects}{\thesection.\arabic{objects}}
+\newtheorem{theorem}[objects]{Teorema}
+\newtheorem{proposition}[objects]{Proposición}
+\newtheorem{definition}[objects]{Definición}
+\newtheorem{example}[objects]{Ejemplo}
+\newtheorem{corollary}[objects]{Corolario}
+\newtheorem{lemma}[objects]{Lema}
+\newtheorem{remark}[objects]{Observación}
 
 \setlength{\parskip}{1em}
 
@@ -90,6 +95,7 @@ snippet dotp "dotp" iA
 endsnippet
 
 priority 100
+context "math()"
 snippet ... "ldots" iA
 \ldots
 endsnippet
@@ -153,10 +159,12 @@ snippet pac "Package" b
 \usepackage[${1:options}]{${2:package}}$0
 endsnippet
 
+context "math()"
 snippet => "implies" Ai
 \implies
 endsnippet
 
+context "math()"
 snippet =< "implied by" Ai
 \impliedby
 endsnippet
@@ -231,33 +239,6 @@ endsnippet
 
 snippet sympy "sympyblock " w
 sympy $1 sympy$0
-endsnippet
-
-priority 10000
-snippet 'sympy(.*)sympy' "sympy" wr
-`!p
-from sympy import *
-x, y, z, t = symbols('x y z t')
-k, m, n = symbols('k m n', integer=True)
-f, g, h = symbols('f g h', cls=Function)
-init_printing()
-snip.rv = eval('latex(' + match.group(1).replace('\\', '').replace('^', '**').replace('{', '(').replace('}', ')') + ')')
-`
-endsnippet
-
-priority 1000
-snippet math "mathematicablock" w
-math $1 math$0
-endsnippet
-
-priority 10000
-snippet 'math(.*)math' "math" wr
-`!p
-import subprocess
-code = match.group(1)
-code = 'ToString[' + code + ', TeXForm]'
-snip.rv = subprocess.check_output(['wolframscript', '-code', code])
-`
 endsnippet
 
 snippet == "equals" iA
@@ -404,48 +385,8 @@ snippet AA "forall" iA
 endsnippet
 
 context "math()"
-snippet xnn "xn" iA
-x_{n}
-endsnippet
-
-context "math()"
-snippet ynn "yn" iA
-y_{n}
-endsnippet
-
-
-context "math()"
-snippet xii "xi" iA
-x_{i}
-endsnippet
-
-context "math()"
-snippet yii "yi" iA
-y_{i}
-endsnippet
-
-context "math()"
-snippet xjj "xj" iA
-x_{j}
-endsnippet
-
-context "math()"
-snippet yjj "yj" iA
-y_{j}
-endsnippet
-
-context "math()"
-snippet xp1 "x" iA
-x_{n+1}
-endsnippet
-
-context "math()"
-snippet xmm "x" iA
-x_{m}
-endsnippet
-
-snippet R0+ "R0+" iA
-\\R_0^+
+snippet '([xyz])(ii|jj|kk|mm|nn)' "index elements" riA
+`!p snip.rv = match.group(1) + '_' + match.group(2)[0]`
 endsnippet
 
 snippet plot "Plot" w
@@ -479,13 +420,19 @@ snippet lll "l" iA
 \ell
 endsnippet
 
+
+context "math()"
+snippet apr "approx" iA
+\approx 
+endsnippet
+
 context "math()"
 snippet nabl "nabla" iA
 \nabla 
 endsnippet
 
 context "math()"
-snippet xx "cross" iA
+snippet XX "cross" iA
 \times 
 endsnippet
 
@@ -556,18 +503,22 @@ snippet \\\ "setminus" iA
 \setminus
 endsnippet
 
+context "math()"
 snippet >> ">>" iA
 \gg
 endsnippet
 
+context "math()"
 snippet << "<<" iA
 \ll
 endsnippet
 
+context "math()"
 snippet circ "Composition" iA
 \circ 
 endsnippet
 
+context "math()"
 snippet ~~ "~" iA
 \sim 
 endsnippet
@@ -577,16 +528,17 @@ snippet set "set" wA
 \\{$1\\} $0
 endsnippet
 
+context "math()"
 snippet || "mid" iA
- \mid 
+\mid 
 endsnippet
 
-
 context "math()"
-snippet cc "subset" Ai
+snippet SS "subset" Ai
 \subset 
 endsnippet
 
+context "math()"
 snippet notin "not in " iA
 \not\in 
 endsnippet
@@ -597,44 +549,35 @@ snippet inn "in " iA
 endsnippet
 
 context "math()"
-snippet eee "in " iA
-\eps 
-endsnippet
-
-snippet NN "n" iA
-\N
-endsnippet
-
-snippet Nn "cap" iA
+snippet II "cap" iA
 \cap 
 endsnippet
 
+context "math()"
 snippet UU "cup" iA
 \cup 
 endsnippet
 
-snippet uuu "bigcup" iA
+context "math()"
+snippet BUU "bigcup" iA
 \bigcup_{${1:i \in ${2: I}}} $0
 endsnippet
 
-snippet nnn "bigcap" iA
+context "math()"
+snippet BII "bigcap" iA
 \bigcap_{${1:i \in ${2: I}}} $0
 endsnippet
 
+context "math()"
 snippet OO "emptyset" iA
 \emptyset
 endsnippet
 
-snippet RR "real" iA
-\R
-endsnippet
-
-snippet QQ "Q" iA
-\Q
-endsnippet
-
-snippet ZZ "Z" iA
-\Z
+context "math()"
+snippet '(KK|CC|RR|QQ|ZZ|NN|DD|HH)' "mathbb" riA
+`!p
+snip.rv = "\mathbb{" + match.group(1)[0] + "}"
+`$0
 endsnippet
 
 snippet <! "normal" iA
@@ -652,11 +595,10 @@ _\text{$1} $0
 endsnippet
 
 context "math()"
-snippet tt "text" iA
+snippet txt "text" iA
 \text{$1}$0
 endsnippet
 
-context "math()"
 snippet case "cases" wA
 \begin{cases}
 	$1
@@ -684,10 +626,10 @@ snippet "bar" "bar" riA
 \overline{$1}$0
 endsnippet
 
-priority 100
+priority 10
 context "math()"
-snippet "([a-zA-Z])bar" "bar" riA
-\overline{`!p snip.rv=match.group(1)`}
+snippet til "tilde" iA
+\tilde{$1}$0
 endsnippet
 
 priority 10
@@ -696,23 +638,39 @@ snippet "hat" "hat" riA
 \hat{$1}$0
 endsnippet
 
-priority 100
 context "math()"
-snippet "([a-zA-Z])hat" "hat" riA
-\hat{`!p snip.rv=match.group(1)`}
+snippet "vec" "vec" riA
+\mathbf{$1}$0
 endsnippet
 
-snippet letw "let omega" iA
-Let $\Omega \subset \C$ be open.
+context "math()"
+snippet '(aa|bb|cc|dd|ee|ff|gg|hh|ii|kk|ll|mm|nn|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz)' "alpha to greek" rA
+`!p
+letter = match.group(1)[0]
+suff = alfn_to_greek[letter]
+snip.rv = '\\' + suff
+`$0
+endsnippet
+
+context "math()"
+snippet '(Aa|Bb|Cc|Dd|Ff|Gg|Hh|Ii|Kk|Ll|Mm|Nn|Pp|Qq|Rr|Ss|Tt|Uu|Vv|Ww|Xx|Yy|Zz)' "alpha to greek" rA
+`!p
+letter = match.group(1)[1]
+suff = alfn_to_greek[letter]
+snip.rv = '\\' + suff.capitalize()
+`$0
+endsnippet
+
+context "math()"
+snippet ort "ort" iA
+\bot
 endsnippet
 
 
-snippet HH "H" iA
-\mathbb{H}
+context "math()"
+snippet '([sS])dir' "direct sum" riA
+\\`!p snip.rv = 'big' if match.group(1)=='S' else ''`oplus$0
 endsnippet
 
-snippet DD "D" iA
-\mathbb{D}
-endsnippet
 
-# vim:ft=snippets
+

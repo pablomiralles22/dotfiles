@@ -19,10 +19,13 @@ require("packer").startup(function()
   use "SirVer/ultisnips"
   use "preservim/nerdcommenter"
   use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
-  -- Language support
   use "lervag/vimtex"
-  -- "godlygeek/tabular";
+  use "jalvesaq/Nvim-R"
+
   use "plasticboy/vim-markdown"
+  use "chiefnoah/neuron-v2.vim"
+  use "ferrine/md-img-paste.vim"
+  use "itspriddle/vim-marked"
   -- LSP support
   use "neovim/nvim-lspconfig"
   use "kabouzeid/nvim-lspinstall"
@@ -39,6 +42,7 @@ require("packer").startup(function()
   -- Themes
   use "morhetz/gruvbox"
   use "lourenci/github-colors"
+  use "chriskempson/base16-vim"
 end)
 
 -- Ultisnips
@@ -48,7 +52,7 @@ g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 g.UltiSnipsSnippetDirectories = {"UltiSnips"}
 
 -------------------- OPTIONS -------------------------------
-cmd 'colorscheme gruvbox'           -- Put your favorite colorscheme here
+cmd 'colorscheme base16-default-dark'           -- Put your favorite colorscheme here
 opt.background = 'dark'
 cmd 'filetype plugin indent on'
 cmd 'syntax on'
@@ -64,7 +68,7 @@ opt.relativenumber = true           -- Relative line numbers
 opt.scrolloff = 4                   -- Lines of context
 opt.shiftround = true               -- Roud indent
 opt.shiftwidth = 2                  -- Size of an indent
-opt.sidescrolloff = 8               -- Columns of context
+opt.sidescrolloff = 0               -- Columns of context
 opt.smartcase = true                -- Do not ignore case with capitals
 opt.smartindent = true              -- Insert indents automatically
 opt.splitbelow = true               -- Put new windows below current
@@ -84,16 +88,6 @@ vim.api.nvim_command([[
   augroup END 
 ]])
 
-
--------------------- ZETTELKASTEN -------------------------------
-
-local zk_dir = '/Users/pablomirallesgonzalez/Documents/notes/vim-tech-zk'
-
-function Start_zettel()
-  cmd 'source ~/.config/nvim/zettelkasten.vim'
-  cmd ('cd '..zk_dir)
-  cmd 'n 00000000000000\\ index.md'
-end
 
 -------------------- MAPPINGS -------------------------------
 g.mapleader = ' '
@@ -120,5 +114,3 @@ map('n', '<leader>fg', ':GFiles<cr>')
 map('n', '<leader>fc', ':Ag<cr>')
 map('n', '<leader>fb', ':Buffers<cr>')
 
--- Vimwiki / Vimzettel
-map('n', '<leader>zko', ':lua Start_zettel()<cr>')
