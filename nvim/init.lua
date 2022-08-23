@@ -20,15 +20,16 @@ require("packer").startup(function()
   use "preservim/nerdcommenter"
   use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
   use "lervag/vimtex"
-  use "jalvesaq/Nvim-R"
 
   use "plasticboy/vim-markdown"
-  use "chiefnoah/neuron-v2.vim"
+  use "mickael-menu/zk-nvim"
+  -- use "Furkanzmc/zettelkasten.nvim"
+  -- use "chiefnoah/neuron-v2.vim"
   use "ferrine/md-img-paste.vim"
   use "itspriddle/vim-marked"
   -- LSP support
   use "neovim/nvim-lspconfig"
-  use "kabouzeid/nvim-lspinstall"
+  use "williamboman/nvim-lsp-installer"
   use {
     "hrsh7th/nvim-cmp",
     requires = {
@@ -52,7 +53,7 @@ g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 g.UltiSnipsSnippetDirectories = {"UltiSnips"}
 
 -------------------- OPTIONS -------------------------------
-cmd 'colorscheme base16-default-dark'           -- Put your favorite colorscheme here
+cmd 'colorscheme gruvbox'           -- Put your favorite colorscheme here
 opt.background = 'dark'
 cmd 'filetype plugin indent on'
 cmd 'syntax on'
@@ -82,11 +83,11 @@ opt.wrap = false                    -- Disable line wrapn
 
 -------------------- AUTOCMD -------------------------------
 
-vim.api.nvim_command([[
-  augroup PlainTextWidth
-  autocmd BufRead,BufNewFile *.txt,*.tex set textwidth=80 " Autowrap text files
-  augroup END 
-]])
+-- vim.api.nvim_command([[
+--   augroup PlainTextWidth
+--   autocmd BufRead,BufNewFile *.txt,*.tex set textwidth=80 " Autowrap text files
+--   augroup END
+-- ]])
 
 
 -------------------- MAPPINGS -------------------------------
@@ -113,4 +114,6 @@ map('n', '<leader>ff', ':Files<cr>')
 map('n', '<leader>fg', ':GFiles<cr>')
 map('n', '<leader>fc', ':Ag<cr>')
 map('n', '<leader>fb', ':Buffers<cr>')
+
+map('n', '<leader>i', ":let @z=input('enter text: ') <bar> norm \"zp<CR>")
 

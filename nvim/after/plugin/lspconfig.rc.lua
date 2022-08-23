@@ -54,32 +54,50 @@ local function make_config()
   }
 end
 
--- lsp-install
-local function setup_servers()
-  require'lspinstall'.setup()
+-- -- lsp-install
+-- local function setup_servers()
+--   require'lspinstall'.setup()
+--
+--   -- get all installed servers
+--   local servers = require'lspinstall'.installed_servers()
+--   -- ... and add manually installed servers
+--
+--   for _, server in pairs(servers) do
+--     local config = make_config()
+--
+--     if server == "java" then
+--       config.filetypes = {"java"};
+--     end
+--
+--     require'lspconfig'[server].setup(config)
+--   end
+-- end
+--
+-- setup_servers()
 
-  -- get all installed servers
-  local servers = require'lspinstall'.installed_servers()
-  -- ... and add manually installed servers
+----- NEW CONFIG
+local lsp_installer = require("nvim-lsp-installer")
 
-  for _, server in pairs(servers) do
-    local config = make_config()
-
-    if server == "java" then
-      config.filetypes = {"java"};
-    end
-
-    require'lspconfig'[server].setup(config)
+lsp_installer.on_server_ready(function(server)
+  local opts = make_config()
+  -- (optional) Customize the options passed to the server
+  if server.name == "pylsp" then
+    opts.settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle =  {
+            enabled = false,
+            -- ignore={'E501', 'E231'},
+            -- maxLineLength=120,
+          },
+          pyflakes =  { enabled = true },
+        } 
+      } 
+    }
   end
-end
 
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-
-end
-
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
 
