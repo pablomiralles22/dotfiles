@@ -3,6 +3,8 @@
 if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then
   local function map(...) vim.api.nvim_buf_set_keymap(0, ...) end
   local opts = { noremap=true, silent=false }
+
+  -- vim.cmd(':silent ! open --background -a "Marked 2" .')
   
   -- Open the link under the caret.
   map("n", "<CR>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
@@ -12,8 +14,8 @@ if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then
   map("n", "<leader>zd", "<Cmd>ZkNew { dir = 'Journal/daily' }<CR>", opts)
 
   -- Search slipbox
-  map("n", "<leader>zse", "<Cmd>ZkNotes { hrefs = { 'Evergreen' } }<CR>", opts)
-  map("n", "<leader>zsl", "<Cmd>ZkNotes { hrefs = { 'Literature' } }<CR>", opts)
+  map("n", "<leader>zse", "<Cmd>ZkNotes { hrefs = { 'Evergreen' }, sort = { 'modified' } }<CR>", opts)
+  map("n", "<leader>zsl", "<Cmd>ZkNotes { hrefs = { 'Literature'}, sort = { 'modified' } }<CR>", opts)
 
   -- Create a new note after asking for its title.
   -- This overrides the global `<leader>zn` mapping to create the note in the same directory as the current buffer.
@@ -31,4 +33,12 @@ if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then
   -- Open the code actions for a visual selection.
   map("v", "<leader>za", ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", opts)
 end
+
+vim.api.nvim_create_user_command("MarkedOpen", function()
+  vim.cmd(":silent ! open --background -a 'Marked 2' .")
+  -- vim.api.nvim_create_autocmd(
+  --   "BufEnter",
+  --   { command = 'silent ! touch "%:p"' }
+  -- )
+end, {})
 

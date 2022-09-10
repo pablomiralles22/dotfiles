@@ -21,12 +21,13 @@ require("packer").startup(function()
   use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
   use "lervag/vimtex"
 
-  use "plasticboy/vim-markdown"
   use "mickael-menu/zk-nvim"
-  -- use "Furkanzmc/zettelkasten.nvim"
-  -- use "chiefnoah/neuron-v2.vim"
+
+  -- Markdown writing
+  use "plasticboy/vim-markdown"
   use "ferrine/md-img-paste.vim"
-  use "itspriddle/vim-marked"
+  use "preservim/vim-pencil"
+
   -- LSP support
   use "neovim/nvim-lspconfig"
   use "williamboman/nvim-lsp-installer"
@@ -40,10 +41,10 @@ require("packer").startup(function()
       "quangnguyen30192/cmp-nvim-ultisnips",
     }
   }
+
   -- Themes
   use "morhetz/gruvbox"
   use "lourenci/github-colors"
-  use "chriskempson/base16-vim"
 end)
 
 -- Ultisnips
@@ -53,11 +54,10 @@ g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 g.UltiSnipsSnippetDirectories = {"UltiSnips"}
 
 -------------------- OPTIONS -------------------------------
-cmd 'colorscheme gruvbox'           -- Put your favorite colorscheme here
-opt.background = 'dark'
+
 cmd 'filetype plugin indent on'
 cmd 'syntax on'
-opt.completeopt = {'menuone', 'noinsert', 'noselect'}  -- Completion options (for deoplete)
+-- opt.completeopt = {'menuone', 'noinsert', 'noselect'}  -- Completion options (for deoplete)
 opt.expandtab = true                -- Use spaces instead of tabs
 opt.hidden = true                   -- Enable background buffers
 opt.ignorecase = true               -- Ignore case
@@ -79,15 +79,8 @@ opt.termguicolors = true            -- True color support
 opt.wildmode = {'list', 'longest'}  -- Command-line completion mode
 opt.wrap = false                    -- Disable line wrapn
 
-
-
--------------------- AUTOCMD -------------------------------
-
--- vim.api.nvim_command([[
---   augroup PlainTextWidth
---   autocmd BufRead,BufNewFile *.txt,*.tex set textwidth=80 " Autowrap text files
---   augroup END
--- ]])
+opt.background = 'dark'
+cmd 'colorscheme gruvbox'           -- Put your favorite colorscheme here
 
 
 -------------------- MAPPINGS -------------------------------

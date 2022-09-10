@@ -1,14 +1,14 @@
 set wrap linebreak nolist
 set tabstop=4
 set shiftwidth=4
+set textwidth=80
 set spell
-nnoremap j gj
-nnoremap k gk
-nnoremap <leader>p :call mdip#MarkdownClipboardImage()<CR>
 
-" markdownWikiLink is a new region
-syn region markdownWikiLink matchgroup=markdownLinkDelimiter start="\[\[" end="\]\]" contains=markdownUrl keepend oneline concealends
-" markdownLinkText is copied from runtime files with 'concealends' appended
-syn region markdownLinkText matchgroup=markdownLinkTextDelimiter start="!\=\[\%(\%(\_[^][]\|\[\_[^][]*\]\)*]\%( \=[[(]\)\)\@=" end="\]\%( \=[[(]\)\@=" nextgroup=markdownLink,markdownId skipwhite contains=@markdownInline,markdownLineStart concealends
-" markdownLink is copied from runtime files with 'conceal' appended
-syn region markdownLink matchgroup=markdownLinkDelimiter start="(" end=")" contains=markdownUrl keepend contained conceal
+" nnoremap j gj
+" nnoremap k gk
+nnoremap <leader>imp :call mdip#MarkdownClipboardImage()<CR>
+
+" PENCIL PLUGIN config
+let g:pencil#autoformat = 1
+let g:pencil#wrapModeDefault = 'hard'
+call pencil#init({'wrap': 'hard'})
