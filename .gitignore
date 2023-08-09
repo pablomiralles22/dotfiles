@@ -7,5 +7,9 @@ yarn
 gatsby
 jgit
 vim
+Microsoft*
+rstudio
+tmuxinator
+latexmk
 
 .DS_Store
