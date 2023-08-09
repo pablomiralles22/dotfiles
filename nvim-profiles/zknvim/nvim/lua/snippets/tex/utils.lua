@@ -30,7 +30,7 @@ local M = {}
 
 -------- CONTEXTS --------
 local texMathZones = {}
-for _, x in ipairs({'A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS', 'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X', 'XX', 'Y', 'Z', 'AmsA', 'AmsB', 'AmsC', 'AmsD', 'AmsE', 'AmsF', 'AmsG', 'AmsAS', 'AmsBS', 'AmsCS', 'AmsDS', 'AmsES', 'AmsFS', 'AmsGS'}) do
+for _, x in ipairs({'A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS', 'K', 'KS', 'L', 'LI', 'LD', 'LS', 'DS', 'V', 'W', 'X', 'XX', 'Y', 'Z', 'AmsA', 'AmsB', 'AmsC', 'AmsD', 'AmsE', 'AmsF', 'AmsG', 'AmsAS', 'AmsBS', 'AmsCS', 'AmsDS', 'AmsES', 'AmsFS', 'AmsGS'}) do
    texMathZones['texMathZone' .. x] = true
 end
 local texIgnoreMathZones = {texMathText = true}
@@ -51,6 +51,9 @@ function M.not_math_mode()
 end
 
 function M.latex_mode()
+    if vim.bo.filetype == "tex" then
+        return true
+    end
     local stack = vim.fn.synstack(vim.fn.line('.'), vim.fn.col('.')-1)
     for ind = 1, #stack, 1 do
         local id = stack[ind]
@@ -61,7 +64,7 @@ function M.latex_mode()
 end
 
 function M.md_mode()
-    return not M.latex_mode()
+    return vim.bo.filetype == "markdown" and not M.latex_mode()
 end
 
 M.auto_backslash_snippet = function(context, opts)
@@ -85,75 +88,6 @@ M.symbol_snippet = function(context, command, opts)
 	context.docstring = context.docstring or (command .. [[{0}]])
 	context.wordTrig = context.wordTrig or false
 	return autosnippet(context, t(command), opts)
-end
-
-
-M.single_command_snippet = function(context, command, opts, ext)
-	opts = opts or {}
-	if not context.trig then
-		error("context doesn't include a `trig` key which is mandatory", 2)
-	end
-	context.dscr = context.dscr or command
-	context.name = context.name or context.dscr
-	local docstring, offset, cnode, lnode
-	if ext.choice == true then
-		docstring = "[" .. [[(<1>)?]] .. "]" .. [[{]] .. [[<2>]] .. [[}]] .. [[<0>]]
-		offset = 1
-		cnode = c(1, { t(""), sn(nil, { t("["), i(1, "opt"), t("]") }) })
-	else
-		docstring = [[{]] .. [[<1>]] .. [[}]] .. [[<0>]]
-	end
-	if ext.label == true then
-		docstring = [[{]] .. [[<1>]] .. [[}]] .. [[\label{(]] .. ext.short .. [[:<2>)?}]] .. [[<0>]]
-		ext.short = ext.short or command
-		lnode =
-			c(2 + (offset or 0), { t(""), sn(
-				nil,
-				fmta(
-					[[
-        \label{<>:<>}
-        ]],
-					{ t(ext.short), i(1) }
-				)
-			) })
-	end
-	context.docstring = context.docstring or (command .. docstring)
-	-- stype = ext.stype or s
-	return s(
-		context,
-		fmta(command .. [[<>{<>}<><>]], { cnode or t(""), i(1 + (offset or 0)), (lnode or t("")), i(0) }),
-		opts
-	)
-end
-
--- postfix helper function - generates dynamic node
-local generate_postfix_dynamicnode = function(_, parent, _, user_arg1, user_arg2)
-    local capture = parent.snippet.env.POSTFIX_MATCH
-    if #capture > 0 then
-        return sn(nil, fmta([[
-        <><><><>
-        ]],
-        {t(user_arg1), t(capture), t(user_arg2), i(0)}))
-    else
-        local visual_placeholder = parent.snippet.env.SELECT_RAW
-        return sn(nil, fmta([[
-        <><><><>
-        ]],
-        {t(user_arg1), i(1, visual_placeholder), t(user_arg2), i(0)}))
-    end
-end
-M.postfix_snippet = function (context, command, opts)
-    opts = opts or {}
-	if not context.trig then
-		error("context doesn't include a `trig` key which is mandatory", 2)
-	end
-	if not context.trig then
-		error("context doesn't include a `trig` key which is mandatory", 2)
-	end
-	context.dscr = context.dscr
-	context.name = context.name or context.dscr
-    context.docstring = command.pre .. [[(POSTFIX_MATCH|VISUAL|<1>)]] .. command.post
-    return postfix(context, {d(1, generate_postfix_dynamicnode, {}, { user_args = {command.pre, command.post} })}, opts)
 end
 
 return M

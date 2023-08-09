@@ -27,3 +27,5 @@ vim.cmd "set whichwrap+=<,>,h,l"
 
 vim.opt.background = 'dark'
 vim.cmd 'colorscheme nord'           -- Put your favorite colorscheme here
+
+vim.g.mapleader = ' '

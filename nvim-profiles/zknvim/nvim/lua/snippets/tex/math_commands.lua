@@ -31,11 +31,9 @@ local autosnippet = ls.extend_decorator.apply(s, {
     snippetType = "autosnippet"
 })
 
-local math_mode = require("snippets.markdown.utils").math_mode
-local auto_backslash_snippet = require("snippets.markdown.utils").auto_backslash_snippet
-local symbol_snippet = require("snippets.markdown.utils").symbol_snippet
-local single_command_snippet = require("snippets.markdown.utils").single_command_snippet
-local postfix_snippet = require("snippets.markdown.utils").postfix_snippet
+local math_mode = require("snippets.tex.utils").math_mode
+local auto_backslash_snippet = require("snippets.tex.utils").auto_backslash_snippet
+local symbol_snippet = require("snippets.tex.utils").symbol_snippet
 
 M = { -- superscripts
 autosnippet({
