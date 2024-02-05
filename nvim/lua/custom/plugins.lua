@@ -21,6 +21,12 @@ local plugins = {
       require "custom.configs.lspconfig"
     end, -- Override to setup mason-lspconfig
   },
+  {
+    "hrsh7th/nvim-cmp",
+    opts=function()
+      return require "custom.configs.cmp_override"
+    end
+  },
 
   -- override plugin configs
   {
@@ -45,6 +51,53 @@ local plugins = {
     config = function()
       require("better_escape").setup()
     end,
+  },
+
+  {
+    "github/copilot.vim",
+    event = "InsertEnter",
+    config = function()
+      vim.g.copilot_assume_mapped = true
+    end,
+  },
+
+  {
+    "rafamadriz/friendly-snippets",
+    enabled = false,
+  },
+
+  {
+    "lervag/vimtex",
+    ft={"plaintex", "tex", "latex"},
+    config = function()
+      require("custom.configs.vimtex")
+    end
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    opts = { history = true, updateevents = "TextChanged,TextChangedI", enable_autosnippets = true },
+    config = function(_, opts)
+      require("plugins.configs.others").luasnip(opts)
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    ft = {"markdown", "pandoc"},
+    run = function() vim.fn["mkdp#util#install"]() end,
+  },
+  {
+    "preservim/vim-markdown",
+    ft = {"markdown", "pandoc"},
+    config = function()
+      require("custom.configs.vim-markdown")
+    end
+  },
+  {
+    "mickael-menu/zk-nvim",
+    ft = {"markdown", "pandoc"},
+    config = function()
+      require("custom.configs.zk-nvim")
+    end
   },
 
   -- To make a plugin not be loaded

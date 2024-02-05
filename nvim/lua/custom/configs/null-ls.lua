@@ -1,8 +1,4 @@
-local present, null_ls = pcall(require, "null-ls")
-
-if not present then
-  return
-end
+local null_ls = require "null-ls"
 
 local b = null_ls.builtins
 
@@ -16,7 +12,12 @@ local sources = {
   b.formatting.stylua,
 
   -- cpp
-  b.formatting.clang_format,
+  -- b.formatting.clang_format,
+  
+  -- python
+  b.formatting.black,
+  b.diagnostics.mypy,
+  b.diagnostics.flake8
 }
 
 null_ls.setup {
